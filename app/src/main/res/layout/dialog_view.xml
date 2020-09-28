@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="this is Dialog Title"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/centerBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:text="CenterBtn"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/leftBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/title"
+        android:layout_toStartOf="@id/centerBtn"
+        android:text="LeftBtn"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/rightBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@id/centerBtn"
+        android:text="RightBtn"
+        android:textSize="20dp" />
+</RelativeLayout>
