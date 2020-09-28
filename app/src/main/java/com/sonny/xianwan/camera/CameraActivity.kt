@@ -3,6 +3,8 @@ package com.sonny.xianwan.camera
 import android.graphics.SurfaceTexture
 import android.os.Bundle
 import android.util.Log
+import android.view.OrientationEventListener
+import android.view.OrientationListener
 import android.view.TextureView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,16 +14,44 @@ import kotlinx.android.synthetic.main.activity_camera.*
 class CameraActivity : AppCompatActivity() {
 
     private lateinit var cameraHelper: CameraHelper
+    private lateinit var orientationEventListener: OrientationEventListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
         cameraHelper = CameraHelper(this)
+        orientationEventListener = object : OrientationEventListener(this) {
+            override fun onOrientationChanged(orientation: Int) {
+                configOrientation(orientation)
+            }
+        }
+
+
+
+
+
 
         action.setOnClickListener { takePicture() }
         action.setOnLongClickListener { takeVideo() }
         setting.setOnClickListener { showSetting() }
+    }
+
+    private fun configOrientation(orientation: Int) {
+        if (cameraHelper != null) {
+            var screenOrientation = 0
+            if (orientation > 350 || orientation < 10) { //0度
+                screenOrientation = 0
+            } else if (orientation > 80 && orientation < 100) { //90度
+                screenOrientation = 90;
+            } else if (orientation > 170 && orientation < 190) { //180度
+                screenOrientation = 180;
+            } else if (orientation > 260 && orientation < 280) { //270度
+                screenOrientation = 270;
+            }
+            cameraHelper.setScreenOrientation(screenOrientation)
+            Log.d("cameraTag", "orientation -> ${orientation}")
+        }
     }
 
 
@@ -38,6 +68,14 @@ class CameraActivity : AppCompatActivity() {
         } else {
             texture.surfaceTextureListener = textureListener
         }
+        if (orientationEventListener.canDetectOrientation()) {
+            orientationEventListener.enable()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        orientationEventListener.disable()
     }
 
     override fun onPause() {

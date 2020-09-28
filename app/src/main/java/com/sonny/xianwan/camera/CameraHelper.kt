@@ -21,6 +21,13 @@ import java.util.*
 class CameraHelper constructor(activity: CameraActivity) {
 
     private val context = activity
+    private var screenOrientation = 0
+
+
+    fun setScreenOrientation(orientation: Int) {
+        screenOrientation = orientation
+    }
+
 
     private var manager: CameraManager =
         activity.getSystemService(Context.CAMERA_SERVICE) as CameraManager
@@ -106,7 +113,10 @@ class CameraHelper constructor(activity: CameraActivity) {
                     )
                 }
 
-                Log.d("cameraTag", "display -> ${displayRotation}")
+                Log.d(
+                    "cameraTag",
+                    "display -> ${displayRotation} +width -> ${previewLarge.width}, +height -> ${previewLarge.height}."
+                )
 
             }
         }
@@ -122,7 +132,7 @@ class CameraHelper constructor(activity: CameraActivity) {
         val requestBuilder =
             cameraDevice?.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
         requestBuilder?.addTarget(pictureSurface)
-        requestBuilder?.set(CaptureRequest.JPEG_ORIENTATION,getDiffAngel())
+        requestBuilder?.set(CaptureRequest.JPEG_ORIENTATION, getDiffAngel())
         val captureRequest = requestBuilder?.build()
 
         captureSession?.stopRepeating()
@@ -130,7 +140,8 @@ class CameraHelper constructor(activity: CameraActivity) {
     }
 
     private fun getDiffAngel(): Int {
-        return (deviceAngel - displayRotation + 360) % 360
+//        val orientation = context.windowManager.defaultDisplay.orientation
+        return (deviceAngel - screenOrientation + 360) % 360
     }
 
 

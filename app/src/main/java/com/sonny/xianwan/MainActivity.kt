@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("lifecycle","onCreate")
         // Example of a call to a native method
 //        sample_text.text = stringFromJNI()
-        Handler()
         sample_text.setOnClickListener {
             val view = LayoutInflater.from(this).inflate(R.layout.dialog_view, null, false)
             val dialog = CustomDialog.Builder(this)
